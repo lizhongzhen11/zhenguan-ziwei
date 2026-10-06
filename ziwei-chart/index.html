@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>贞观紫微 · 紫微斗数排盘</title>
+<link rel="stylesheet" href="css/chart.css" />
+</head>
+<body>
+<div class="app">
+
+  <!-- 顶部品牌 -->
+  <header class="app-header">
+    <div class="brand">
+      <span class="brand-mark">☯</span>
+      <div class="brand-text">
+        <h1>贞观紫微</h1>
+        <p class="brand-sub">紫微斗数 · 本命 / 大限 / 流年 排盘</p>
+      </div>
+    </div>
+    <p class="brand-disclaimer">仅供文化娱乐参考</p>
+  </header>
+
+  <!-- 起盘表单（form 元素，submit 才能触发） -->
+  <form class="birth-form" id="birthForm">
+    <div class="form-row">
+      <label class="field">
+        <span class="field-label">姓名</span>
+        <input type="text" id="f_name" placeholder="选填" />
+      </label>
+      <label class="field field-ymd">
+        <span class="field-label">公历出生</span>
+        <span class="ymd-inputs">
+          <input type="number" id="f_year" min="1900" max="2100" value="2026" />
+          <span class="ymd-sep">年</span>
+          <input type="number" id="f_month" min="1" max="12" value="7" />
+          <span class="ymd-sep">月</span>
+          <input type="number" id="f_day" min="1" max="31" value="26" />
+          <span class="ymd-sep">日</span>
+        </span>
+      </label>
+    </div>
+
+    <!-- 出生地点（真太阳时校正） -->
+    <div class="form-row">
+      <label class="field field-location">
+        <span class="field-label">出生地点（用于真太阳时校正）</span>
+        <span class="location-inputs">
+          <select id="f_province"><option value="">省份 / 直辖市</option></select>
+          <select id="f_city" disabled><option value="">先选省份</option></select>
+          <span class="location-info" id="locationInfo">未选择地点 · 按北京时间起盘</span>
+        </span>
+      </label>
+    </div>
+
+    <div class="form-row">
+      <label class="field field-time">
+        <span class="field-label">出生时间（北京时间）</span>
+        <span class="time-inputs">
+          <input type="number" id="f_hour" min="0" max="23" value="13" />
+          <span class="ymd-sep">时</span>
+          <input type="number" id="f_minute" min="0" max="59" value="39" />
+          <span class="ymd-sep">分</span>
+          <span class="shichen-hint" id="shichenHint">未时</span>
+        </span>
+      </label>
+      <div class="field field-gender">
+        <span class="field-label">性别</span>
+        <div class="gender-radio">
+          <label><input type="radio" name="gender" value="male" /><span>男</span></label>
+          <label><input type="radio" name="gender" value="female" checked /><span>女</span></label>
+        </div>
+      </div>
+      <button type="submit" class="btn-submit" id="btnSubmit">起 盘</button>
+    </div>
+  </form>
+
+  <!-- 排盘区 -->
+  <main class="chart-area" id="chartArea">
+    <div class="chart-placeholder" id="chartPlaceholder">
+      <div class="placeholder-mark">☯</div>
+      <p>填入出生信息，点击「起盘」生成命盘</p>
+    </div>
+  </main>
+
+  <!-- 页脚 -->
+  <footer class="app-footer">
+    <p>天行健，君子以自强不息 · 本排盘基于开源 iztro 算法，结果仅供参考</p>
+  </footer>
+
+</div>
+
+<script src="lib/iztro.min.js"></script>
+<script src="lib/lunar.js"></script>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,909 @@
+/* ============================================================
+   贞观紫微 · 紫微斗数排盘样式
+   主题：浅色羊皮纸 + 墨金  |  学 metisziwei.com 设计风格
+   ============================================================ */
+
+:root {
+  /* 背景层级（暖白羊皮纸） */
+  --bg-0:    #FAFAF9;   /* 页面底 */
+  --bg-1:    #F4F3EF;   /* 次级背景 */
+  --bg-2:    #ECEAE4;   /* 三级背景 */
+  --bg-card: #FFFFFF;   /* 卡片白 */
+  --bg-page: #fbf6e8;   /* 羊皮纸黄（排盘区） */
+
+  /* 文字层级 */
+  --tx-0: #0D0D0B;   /* 主文字 近黑 */
+  --tx-1: #1A1A18;   /* 次文字 */
+  --tx-2: #4A4A45;   /* 三级 */
+  --tx-3: #8A8A82;   /* 淡 */
+
+  /* 墨金（唯一强调色） */
+  --ac:     #B8922A;
+  --ac-dim: #7A5F1A;
+  --ac-bg:  rgba(184,146,42,0.07);
+  --ac-bdr: rgba(184,146,42,0.22);
+
+  /* 星曜色 */
+  --major-bright: #7A5F1A;  /* 庙旺 暗金深 */
+  --major-normal: #B8922A;  /* 平 墨金 */
+  --major-dim:    #8A8A82;  /* 陷 灰 */
+  --lucky:        #1A56A8;  /* 吉星 深蓝 */
+  --sha:          #A83228;  /* 煞星 深红 */
+  --minor:        #8A8A82;  /* 杂曜 灰 */
+
+  /* 高亮态 */
+  --daxian:     #7C3AED;              /* 大限 紫 */
+  --daxian-bg:  rgba(124,58,237,0.06);
+  --daxian-bdr: rgba(124,58,237,0.35);
+  --liunian:    #B8922A;              /* 流年 墨金 */
+  --liunian-bg: rgba(184,146,42,0.08);
+  --liunian-bdr:rgba(184,146,42,0.40);
+  --select:     #1A56A8;              /* 选中 蓝 */
+  --select-bg:  rgba(26,86,168,0.08);
+  --sanfang-bg: rgba(26,86,168,0.05);
+
+  /* 四化色（Metis 深色系） */
+  --lu:   #2D7A4A;  /* 禄 深绿 */
+  --quan: #1A56A8;  /* 权 深蓝 */
+  --ke:   #8A7018;  /* 科 深黄褐 */
+  --ji:   #A83228;  /* 忌 深红 */
+
+  /* 边框 */
+  --bdr:       rgba(0,0,0,0.07);
+  --bdr-med:   rgba(0,0,0,0.11);
+  --bdr-heavy: rgba(0,0,0,0.18);
+
+  /* 阴影 */
+  --sh-xs: 0 1px 2px rgba(0,0,0,0.05);
+  --sh-sm: 0 2px 8px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04);
+  --sh-md: 0 4px 20px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.05);
+  --sh-lg: 0 12px 40px rgba(0,0,0,0.10), 0 4px 12px rgba(0,0,0,0.06);
+
+  /* 圆角 */
+  --r-xs:4px; --r-sm:8px; --r-md:12px; --r-lg:16px; --r-pill:999px;
+
+  /* 字体 */
+  --font-sans:  -apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;
+  --font-serif: 'Songti SC','STSong','Source Han Serif SC','Noto Serif SC','SimSun',serif;
+  --font-mono:  'SF Mono','JetBrains Mono','Menlo','Consolas',monospace;
+}
+
+/* ---------- 基础重置 ---------- */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: var(--bg-0); color: var(--tx-1); font-family: var(--font-sans); }
+body { min-height: 100vh; padding: 20px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+input { font-family: inherit; }
+
+/* ---------- 应用容器 ---------- */
+.app {
+  max-width: 1080px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* ---------- 顶部品牌 ---------- */
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 4px 12px;
+  border-bottom: 1px solid var(--bdr);
+}
+.brand { display: flex; align-items: center; gap: 14px; }
+.brand-mark {
+  font-size: 34px;
+  color: var(--ac);
+  line-height: 1;
+  filter: drop-shadow(0 0 8px rgba(184,146,42,0.2));
+}
+.brand-text h1 {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--ac-dim);
+  letter-spacing: 0.15em;
+}
+.brand-sub {
+  font-size: 11px;
+  color: var(--tx-3);
+  letter-spacing: 0.2em;
+  margin-top: 2px;
+}
+.brand-disclaimer {
+  font-size: 11px;
+  color: var(--tx-3);
+  letter-spacing: 0.1em;
+  border: 1px solid var(--bdr-med);
+  padding: 4px 10px;
+  border-radius: var(--r-pill);
+  background: var(--bg-card);
+}
+
+/* ---------- 起盘表单 ---------- */
+.birth-form {
+  background: var(--bg-card);
+  border: 1px solid var(--bdr);
+  border-radius: var(--r-md);
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  box-shadow: var(--sh-sm);
+}
+.form-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field-label {
+  font-size: 11px;
+  color: var(--tx-3);
+  letter-spacing: 0.1em;
+}
+.field input[type="text"],
+.field input[type="number"] {
+  background: var(--bg-0);
+  border: 1px solid var(--bdr-med);
+  color: var(--tx-0);
+  padding: 9px 11px;
+  border-radius: var(--r-sm);
+  font-size: 14px;
+  width: 80px;
+  font-family: var(--font-mono);
+  transition: border-color .15s;
+}
+.field input:focus { outline: none; border-color: var(--ac); }
+.field input[type="text"] { width: 140px; font-family: var(--font-sans); }
+
+.field-ymd { flex: 1; min-width: 280px; }
+.ymd-inputs { display: flex; align-items: center; gap: 6px; }
+.ymd-inputs input { width: 64px; }
+.ymd-sep { color: var(--tx-3); font-size: 13px; }
+
+.field-time { min-width: 220px; }
+.time-inputs { display: flex; align-items: center; gap: 6px; }
+.time-inputs input { width: 56px; }
+.shichen-hint {
+  margin-left: 8px;
+  font-family: var(--font-serif);
+  color: var(--ac-dim);
+  font-size: 14px;
+  padding: 6px 12px;
+  background: var(--ac-bg);
+  border-radius: var(--r-sm);
+  border: 1px solid var(--ac-bdr);
+}
+
+.field-gender .gender-radio { display: flex; gap: 10px; }
+.gender-radio label {
+  display: flex; align-items: center; gap: 6px;
+  cursor: pointer; font-size: 14px; color: var(--tx-2);
+  padding: 9px 16px;
+  border: 1px solid var(--bdr-med);
+  border-radius: var(--r-sm);
+  background: var(--bg-0);
+  transition: all .15s;
+}
+.gender-radio input { display: none; }
+.gender-radio input:checked + span { color: var(--ac-dim); font-weight: 500; }
+.gender-radio label:has(input:checked) {
+  border-color: var(--ac);
+  background: var(--ac-bg);
+}
+
+/* select 与出生地点 */
+.field select {
+  background: var(--bg-0);
+  border: 1px solid var(--bdr-med);
+  color: var(--tx-0);
+  padding: 9px 11px;
+  border-radius: var(--r-sm);
+  font-size: 14px;
+  font-family: var(--font-sans);
+  transition: border-color .15s;
+  cursor: pointer;
+}
+.field select:focus { outline: none; border-color: var(--ac); }
+.field select:disabled { opacity: 0.45; cursor: not-allowed; }
+.field-location { flex: 1; min-width: 300px; }
+.location-inputs { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.location-inputs select { min-width: 130px; }
+.location-info {
+  font-size: 11px;
+  color: var(--tx-3);
+  font-family: var(--font-mono);
+  letter-spacing: 0.02em;
+}
+
+.btn-submit {
+  margin-left: auto;
+  background: var(--ac);
+  color: #fff;
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: 0.3em;
+  padding: 11px 30px;
+  border-radius: var(--r-pill);
+  font-family: var(--font-sans);
+  transition: background .15s, transform .1s;
+  box-shadow: var(--sh-xs);
+}
+.btn-submit:hover { background: var(--ac-dim); }
+.btn-submit:active { transform: scale(0.98); }
+
+/* ---------- 排盘区 ---------- */
+.chart-area {
+  background: var(--bg-card);
+  border: 1px solid var(--bdr);
+  border-radius: var(--r-lg);
+  padding: 22px;
+  min-height: 400px;
+  box-shadow: var(--sh-sm);
+}
+.chart-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 80px 0;
+  color: var(--tx-3);
+}
+.placeholder-mark {
+  font-size: 60px;
+  color: var(--ac);
+  opacity: 0.18;
+  filter: drop-shadow(0 0 16px rgba(184,146,42,0.12));
+}
+
+/* ---------- 时间导航 ---------- */
+.time-nav { margin-bottom: 14px; }
+.time-tabs {
+  display: flex;
+  gap: 3px;
+  background: var(--bg-1);
+  border: 1px solid var(--bdr);
+  border-radius: var(--r-sm);
+  padding: 3px;
+}
+.tab-btn {
+  flex: 1;
+  padding: 8px 12px;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  color: var(--tx-3);
+  border-radius: 6px;
+  transition: all .18s;
+  border: none;
+  background: transparent;
+  white-space: nowrap;
+}
+.tab-btn:hover { color: var(--tx-1); }
+.tab-btn.active {
+  color: var(--tx-0);
+  background: var(--bg-card);
+  font-weight: 500;
+  box-shadow: var(--sh-xs);
+}
+.tab-btn.daxian-active {
+  color: var(--daxian);
+  background: var(--daxian-bg);
+  border: 1px solid var(--daxian-bdr);
+  font-weight: 500;
+}
+.tab-liunian { display: flex; align-items: center; justify-content: center; gap: 8px; }
+.year-stepper { display: flex; align-items: center; gap: 2px; }
+.year-stepper button {
+  width: 22px; height: 22px;
+  border-radius: 5px;
+  color: var(--tx-3);
+  font-size: 14px;
+  line-height: 1;
+  transition: all .15s;
+}
+.year-stepper button:hover { background: var(--bg-2); color: var(--ac-dim); }
+.year-display {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  min-width: 42px;
+  text-align: center;
+  color: var(--ac-dim);
+  font-weight: 500;
+}
+
+/* 叠加四化说明条 */
+.overlay-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+  padding: 7px 12px;
+  font-size: 12px;
+  color: var(--tx-3);
+  flex-wrap: wrap;
+  background: var(--bg-1);
+  border-radius: var(--r-sm);
+}
+.overlay-info .label { letter-spacing: 0.05em; }
+.overlay-info .sihua-item { font-weight: 600; }
+.overlay-info .sihua-item.lu  { color: var(--lu); }
+.overlay-info .sihua-item.quan{ color: var(--quan); }
+.overlay-info .sihua-item.ke  { color: var(--ke); }
+.overlay-info .sihua-item.ji  { color: var(--ji); }
+
+/* ---------- 命盘标题 ---------- */
+.chart-title {
+  text-align: center;
+  margin-bottom: 12px;
+}
+.chart-title .latin {
+  font-size: 10px;
+  letter-spacing: 0.5em;
+  color: var(--tx-3);
+  margin-bottom: 4px;
+  text-transform: uppercase;
+}
+.chart-title h2 {
+  font-family: var(--font-serif);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ac-dim);
+  letter-spacing: 0.25em;
+}
+
+/* ---------- 4×4 命盘网格 ---------- */
+.chart-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--bdr-med);
+  border: 1px solid var(--bdr-med);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  aspect-ratio: 1 / 1;
+  max-width: 760px;
+  margin: 0 auto;
+  box-shadow: var(--sh-md);
+  position: relative;
+}
+
+/* ---------- 宫位 cell ---------- */
+.palace {
+  background: var(--bg-card);
+  padding: 9px 10px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  cursor: pointer;
+  transition: background .2s;
+  overflow: hidden;
+  min-width: 0;
+}
+.palace:hover { background: var(--bg-1); }
+
+/* 状态高亮 */
+/* 命/身宫不加背景色，仅靠 badge 标记（学 Metis 线上）*/
+.palace.is-current-daxian {
+  background: var(--daxian-bg);
+  box-shadow: inset 3px 0 0 var(--daxian);
+}
+.palace.is-current-liunian {
+  background: var(--liunian-bg);
+  box-shadow: inset 3px 0 0 var(--liunian);
+}
+.palace.is-selected {
+  box-shadow: inset 0 0 0 1.5px var(--select);
+  background: var(--select-bg) !important;
+}
+.palace.is-sanfang {
+  background: var(--sanfang-bg);
+  box-shadow: inset 0 0 0 1px rgba(26,86,168,0.3);
+}
+.palace.is-daxian-selected {
+  background: var(--daxian-bg);
+  box-shadow: inset 0 0 0 1.5px var(--daxian);
+}
+.palace.is-liunian-selected {
+  box-shadow: inset 0 0 0 1.5px var(--select);
+}
+
+/* 右上角大限年龄 */
+.daxian-age {
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--tx-3);
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  padding: 3px 5px;
+  z-index: 10;
+  border-radius: 3px;
+  transition: background .15s;
+}
+.daxian-age:hover { background: var(--ac-bg); }
+.palace.is-current-daxian .daxian-age { color: var(--daxian); font-weight: 600; }
+
+/* 宫名行 */
+.palace-name-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 2px;
+  padding-right: 36px;
+}
+.palace-name {
+  font-family: var(--font-serif);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ac);
+  letter-spacing: 0.05em;
+}
+.palace.is-ming .palace-name { color: var(--ac-dim); font-weight: 600; }
+.palace.is-shen .palace-name { color: var(--lucky); font-weight: 600; }
+.badge-tag {
+  font-size: 8px;
+  padding: 1px 4px;
+  border-radius: 3px;
+  line-height: 1.2;
+  font-weight: 600;
+}
+.badge-tag.ming { color: var(--ac-dim); border: 1px solid var(--ac-bdr); }
+.badge-tag.shen { color: var(--lucky); border: 1px solid rgba(26,86,168,0.3); }
+
+/* 干支 */
+.palace-ganzhi {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--tx-3);
+  margin-bottom: 4px;
+}
+
+/* 主星 */
+.major-stars { display: flex; flex-direction: column; gap: 1px; flex: 1; }
+.star-major {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-family: var(--font-serif);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1.3;
+}
+.star-major .star-name { transition: filter .15s; }
+.star-major:hover .star-name { filter: brightness(1.15); }
+.star-major.bright .star-name { color: var(--major-bright); }
+.star-major.normal .star-name { color: var(--major-normal); }
+.star-major.dim    .star-name { color: var(--major-dim); }
+.star-major .brightness {
+  font-size: 10px;
+  font-weight: 500;
+  opacity: 0.8;
+  margin-left: 1px;
+}
+.star-major.bright .brightness { color: var(--major-bright); }
+.star-major.normal .brightness { color: var(--major-normal); }
+.star-major.dim    .brightness { color: var(--major-dim); }
+
+.empty-palace {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 12px;
+  color: var(--tx-3);
+  opacity: 0.7;
+}
+
+/* 吉星 / 煞星 / 杂曜 */
+.star-line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 6px;
+  margin-top: 2px;
+  line-height: 1.4;
+}
+.star-lucky {
+  font-size: 10px;
+  color: var(--lucky);
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+.star-sha {
+  font-size: 10px;
+  color: var(--sha);
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+.star-minor {
+  font-size: 10px;
+  color: var(--minor);
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+
+/* 四化 badge（Metis 深色系） */
+.sihua-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 9px;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  padding: 1px 5px;
+  border-radius: var(--r-xs);
+  line-height: 1.4;
+  border: 1px solid;
+  margin-left: 2px;
+  flex-shrink: 0;
+  letter-spacing: 0.02em;
+}
+.sihua-badge.lu   { color: var(--lu);   border-color: rgba(45,122,74,0.25);  background: rgba(45,122,74,0.08); }
+.sihua-badge.quan { color: var(--quan); border-color: rgba(26,86,168,0.25);  background: rgba(26,86,168,0.08); }
+.sihua-badge.ke   { color: var(--ke);   border-color: rgba(138,112,24,0.25); background: rgba(138,112,24,0.08); }
+.sihua-badge.ji   { color: var(--ji);   border-color: rgba(168,50,40,0.25);  background: rgba(168,50,40,0.08); }
+.sihua-badge.native { color: var(--ji); border-color: rgba(168,50,40,0.35); background: rgba(168,50,40,0.10); font-weight: 700; }
+.sihua-badge.overlay { border-style: dashed; }
+.sihua-badge.overlay .overlay-label {
+  font-size: 7px;
+  margin-right: 1px;
+  opacity: 0.75;
+}
+
+/* ---------- 中央摘要区 ---------- */
+.center-summary {
+  grid-row: 2 / 4;
+  grid-column: 2 / 4;
+  background: var(--bg-1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px;
+  text-align: center;
+  position: relative;
+}
+.center-mark {
+  font-size: 56px;
+  color: var(--ac);
+  opacity: 0.1;
+  line-height: 1;
+  filter: drop-shadow(0 0 12px rgba(184,146,42,0.12));
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.center-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.center-title {
+  font-family: var(--font-serif);
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  color: var(--ac-dim);
+  font-weight: 500;
+}
+.center-meta {
+  font-size: 11px;
+  color: var(--tx-3);
+  line-height: 1.7;
+}
+.center-meta .meta-row { display: flex; gap: 6px; justify-content: center; }
+.center-meta .meta-key { color: var(--tx-3); }
+.center-meta .meta-val { color: var(--ac-dim); font-weight: 500; }
+.center-meta .meta-val.shen { color: var(--lucky); }
+.center-ju {
+  font-family: var(--font-serif);
+  font-size: 12px;
+  color: var(--ac-dim);
+  letter-spacing: 0.1em;
+  margin-top: 2px;
+}
+.current-daxian-box {
+  border: 1px solid var(--daxian-bdr);
+  background: var(--bg-card);
+  border-radius: var(--r-sm);
+  padding: 7px 16px;
+  text-align: center;
+  margin-top: 4px;
+}
+.current-daxian-box .cd-label {
+  font-size: 9px;
+  color: var(--daxian);
+  letter-spacing: 0.15em;
+  margin-bottom: 2px;
+}
+.current-daxian-box .cd-age {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--daxian);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.current-daxian-box .cd-name {
+  font-size: 10px;
+  color: var(--tx-3);
+  margin-top: 1px;
+}
+.center-lunar {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--tx-3);
+  letter-spacing: 0.05em;
+}
+
+/* ---------- 图例 ---------- */
+.legend {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 14px;
+  font-size: 10px;
+  flex-wrap: wrap;
+}
+.legend-item {
+  padding: 3px 11px;
+  border-radius: var(--r-pill);
+  border: 1px solid;
+  font-weight: 600;
+}
+.legend-item.lu   { color: var(--lu);   border-color: rgba(45,122,74,0.25);  background: rgba(45,122,74,0.06); }
+.legend-item.quan { color: var(--quan); border-color: rgba(26,86,168,0.25);  background: rgba(26,86,168,0.06); }
+.legend-item.ke   { color: var(--ke);   border-color: rgba(138,112,24,0.25); background: rgba(138,112,24,0.06); }
+.legend-item.ji   { color: var(--ji);   border-color: rgba(168,50,40,0.25);  background: rgba(168,50,40,0.06); }
+.legend-hint {
+  padding: 3px 11px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--bdr-med);
+  color: var(--tx-3);
+  background: var(--bg-card);
+}
+
+/* ---------- 大限模块 ---------- */
+/* 大限宫名（绿色小字，宫位内） */
+.palace-daxian-name {
+  font-family: var(--font-serif);
+  font-size: 9px;
+  color: #2D7A4A;
+  font-weight: 600;
+  margin-left: 2px;
+  padding: 1px 5px;
+  border-radius: 3px;
+  background: rgba(45,122,74,0.10);
+  border: 1px solid rgba(45,122,74,0.2);
+}
+.palace-liunian-name {
+  font-family: var(--font-serif);
+  font-size: 9px;
+  color: #1A56A8;
+  font-weight: 600;
+  margin-left: 2px;
+  padding: 1px 5px;
+  border-radius: 3px;
+  background: rgba(26,86,168,0.10);
+  border: 1px solid rgba(26,86,168,0.2);
+}
+.palace.is-daxian-ming {
+  box-shadow: inset 0 0 0 1.5px #2D7A4A;
+}
+/* 大限四化 badge 统一绿色 */
+.sihua-badge.daxian {
+  color: #2D7A4A;
+  border-color: rgba(45,122,74,0.35);
+  background: rgba(45,122,74,0.10);
+  font-weight: 700;
+}
+.sihua-badge.daxian .overlay-label { color: #2D7A4A; }
+.sihua-badge.liunian {
+  color: #1A56A8;
+  border-color: rgba(26,86,168,0.35);
+  background: rgba(26,86,168,0.10);
+  font-weight: 700;
+}
+.sihua-badge.liunian .overlay-label { color: #1A56A8; }
+
+/* 图例-大限/生年 */
+.legend-item.native { color: var(--ji); border-color: rgba(168,50,40,0.25); background: rgba(168,50,40,0.06); }
+.legend-item.dx { color: #2D7A4A; border-color: rgba(45,122,74,0.25); background: rgba(45,122,74,0.06); }
+.legend-item.ln { color: #1A56A8; border-color: rgba(26,86,168,0.25); background: rgba(26,86,168,0.06); }
+
+/* 大限面板（命盘下方） */
+.daxian-panel {
+  margin-top: 16px;
+  padding: 14px 16px;
+  background: var(--bg-1);
+  border: 1px solid var(--bdr);
+  border-radius: var(--r-md);
+}
+.daxian-panel-title {
+  font-size: 11px;
+  color: var(--tx-3);
+  letter-spacing: 0.1em;
+  margin-bottom: 10px;
+}
+.daxian-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.daxian-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 11px;
+  background: var(--bg-card);
+  border: 1px solid var(--bdr-med);
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  transition: all .15s;
+  font-size: 11px;
+}
+.daxian-item:hover { border-color: #2D7A4A; background: rgba(45,122,74,0.04); }
+.daxian-item.current { border-color: var(--ac-bdr); background: var(--ac-bg); }
+.daxian-item.current .dx-name { color: var(--ac-dim); }
+.daxian-item.selected {
+  background: rgba(45,122,74,0.10);
+  border-color: #2D7A4A;
+  box-shadow: 0 0 0 1px rgba(45,122,74,0.3);
+}
+.daxian-item .dx-age { font-family: var(--font-mono); color: var(--tx-2); font-variant-numeric: tabular-nums; }
+.daxian-item .dx-ganzhi { font-family: var(--font-mono); color: var(--tx-3); }
+.daxian-item .dx-name { font-family: var(--font-serif); color: var(--tx-1); }
+.daxian-item.selected .dx-name { color: #2D7A4A; font-weight: 600; }
+
+/* 叠加信息条-大限 */
+.overlay-info.daxian-info { background: rgba(45,122,74,0.05); }
+.overlay-info .sihua-item.dx { color: #2D7A4A; }
+.overlay-info .sihua-item.ln { color: #1A56A8; }
+.overlay-info .sihua-item.native { color: var(--ji); }
+.overlay-info.native-info { background: rgba(168,50,40,0.04); }
+
+/* 中央选中大限框 */
+.current-daxian-box.selected { border-color: rgba(45,122,74,0.4); background: rgba(45,122,74,0.06); }
+.current-daxian-box.selected .cd-label,
+.current-daxian-box.selected .cd-age,
+.current-daxian-box.selected .cd-name { color: #2D7A4A; }
+
+/* 中央选中流年框 */
+.current-liunian-box {
+  border: 1px solid rgba(26,86,168,0.35);
+  background: rgba(26,86,168,0.06);
+  border-radius: var(--r-sm);
+  padding: 6px 14px;
+  text-align: center;
+  margin-top: 4px;
+}
+.current-liunian-box .cd-label { color: var(--select); font-size: 9px; letter-spacing: 0.15em; margin-bottom: 2px; }
+.current-liunian-box .cd-age { color: var(--select); font-family: var(--font-mono); font-size: 13px; font-weight: 600; }
+.current-liunian-box .cd-name { color: var(--tx-3); font-size: 10px; margin-top: 1px; }
+
+/* 叠加信息条容器 */
+.overlay-bar { margin-bottom: 14px; display: flex; flex-direction: column; gap: 6px; }
+.overlay-info.liunian-info { background: rgba(26,86,168,0.04); }
+
+/* 流年面板 */
+.liunian-panel {
+  margin-top: 12px;
+  padding: 14px 16px;
+  background: var(--bg-1);
+  border: 1px solid var(--bdr);
+  border-radius: var(--r-md);
+}
+.liunian-panel-title {
+  font-size: 11px;
+  color: var(--tx-3);
+  letter-spacing: 0.1em;
+  margin-bottom: 10px;
+}
+.liunian-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.liunian-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 11px;
+  background: var(--bg-card);
+  border: 1px solid var(--bdr-med);
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  transition: all .15s;
+  font-size: 11px;
+}
+.liunian-item:hover { border-color: var(--select); background: rgba(26,86,168,0.04); }
+.liunian-item.selected {
+  background: rgba(26,86,168,0.10);
+  border-color: var(--select);
+  box-shadow: 0 0 0 1px rgba(26,86,168,0.3);
+}
+.liunian-item .ln-year { font-family: var(--font-mono); color: var(--tx-2); font-variant-numeric: tabular-nums; }
+.liunian-item .ln-age { color: var(--tx-3); font-size: 10px; }
+.liunian-item .ln-ganzhi { font-family: var(--font-mono); color: var(--tx-3); }
+.liunian-item .ln-palace { font-family: var(--font-serif); color: var(--tx-1); }
+.liunian-item.selected .ln-year,
+.liunian-item.selected .ln-palace { color: var(--select); font-weight: 600; }
+
+/* ---------- 三方四正 SVG 连线层 ---------- */
+.sanfang-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  pointer-events: none;
+  z-index: 20;
+}
+
+/* ---------- 页脚 ---------- */
+.app-footer {
+  text-align: center;
+  padding: 14px 0 4px;
+  font-size: 11px;
+  color: var(--tx-3);
+  letter-spacing: 0.08em;
+  border-top: 1px solid var(--bdr);
+}
+
+/* ---------- 加载态 ---------- */
+.chart-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 80px 0;
+  color: var(--tx-3);
+}
+.chart-loading .spinner {
+  width: 32px; height: 32px;
+  border: 2px solid var(--bdr-med);
+  border-top-color: var(--ac);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ---------- 错误态 ---------- */
+.chart-error {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--sha);
+  font-size: 13px;
+}
+.chart-error .err-title {
+  font-family: var(--font-serif);
+  font-size: 15px;
+  margin-bottom: 6px;
+}
+
+/* ---------- 响应式 ---------- */
+@media (max-width: 720px) {
+  body { padding: 10px; }
+  .app-header { flex-direction: column; gap: 10px; align-items: flex-start; }
+  .form-row { flex-direction: column; align-items: stretch; }
+  .field-ymd, .field-time, .field-gender { min-width: 0; }
+  .btn-submit { margin-left: 0; width: 100%; }
+  .chart-grid { max-width: 100%; }
+  .palace { padding: 6px 7px; }
+  .star-major { font-size: 12px; }
+  .palace-name { font-size: 10px; }
+  .star-lucky, .star-sha, .star-minor { font-size: 9px; }
+}
