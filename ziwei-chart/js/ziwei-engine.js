@@ -260,15 +260,18 @@ export function generateChart(birthInfo) {
       ...(p.minorStars ?? []).map(s => ({
         name: s.name,
         type: mapStarType(s.name, s.type),
-        brightness: 'normal',
-        brightnessText: '',
+        // 【2026-10-07 修复】iztro 对 文昌/文曲/火星/铃星/擎羊/陀罗 自带 brightness（庙旺得利平陷），
+        // 原先写死 'normal'/'' 会把这些真实数据丢弃；无数据的星（左右魁钺禄存天马空劫）自然落空
+        brightness: mapBrightness(s.brightness),
+        brightnessText: s.brightness ?? '',
         siHua: s.mutagen ?? null,
       })),
       ...(p.adjectiveStars ?? []).map(s => ({
         name: s.name,
         type: 'minor',
-        brightness: 'normal',
-        brightnessText: '',
+        // 【2026-10-07 修复】杂曜 iztro 无亮度数据，读取后自然为空——统一走读取路径，勿再写死
+        brightness: mapBrightness(s.brightness),
+        brightnessText: s.brightness ?? '',
         siHua: s.mutagen ?? null,
       })),
     ];
